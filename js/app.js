@@ -21,19 +21,41 @@ class Enemy {
     render() {
         ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     }
-};
+}
 
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
+class Player {
+    constructor() {
+        // Variables applied to each of our instances
+        this.x = 202;
+        this.y = 406;
+        // The image/sprite for our player
+        this.sprite = 'images/char-cat-girl.png';
+    }
 
+    // Update the player's position
+    update(dt) {
+
+    }
+
+    // Draw the player on the screen
+    render() {
+        ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    }
+
+    // handleInput() method
+    handleInput() {
+
+    }
+}
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 let allEnemies = [];
 // Place the player object in a variable called player
-
-
+let player = new Player();
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
