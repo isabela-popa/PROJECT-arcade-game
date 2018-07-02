@@ -7,7 +7,7 @@ class Enemy {
         this.y = y;
         // The image/sprite for our enemies, this uses
         // a helper we've provided to easily load images
-        this.sprite = 'images/enemy-bug.png';
+        this.sprite = 'images/blue-f1-car.png';
     }
 
     // Update the enemy's position, required method for game
@@ -33,7 +33,7 @@ class Player {
         this.x = 202;
         this.y = 406;
         // The image/sprite for our player
-        this.sprite = 'images/char-cat-girl.png';
+        this.sprite = 'images/white-rabbit.png';
     }
 
     // Update the player's position
@@ -58,7 +58,7 @@ let allEnemies = [];
 // Create the enemies and add them to allEnemies array
 let enemiesPositionY = [62, 62, 145, 145, 228, 228, 228];
 enemiesPositionY.forEach (enemyPositionY => {
-    let enemy = new Enemy(100, enemyPositionY);
+    let enemy = new Enemy(0, enemyPositionY);
     allEnemies.push(enemy);
 });
 
