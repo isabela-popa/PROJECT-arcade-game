@@ -5,7 +5,7 @@ class Enemy {
         // we've provided one for you to get started
         this.x = x;
         this.y = y;
-        this.speed = Math.floor((Math.random() * 250) + 100);
+        this.speed = Math.floor((Math.random() * 230) + 50);
         // The image/sprite for our enemies, this uses
         // a helper we've provided to easily load images
         this.sprite = 'images/blue-f1-car.png';
@@ -18,6 +18,9 @@ class Enemy {
         // which will ensure the game runs at the same speed for
         // all computers.
         this.x += this.speed * dt;
+        if (this.x > 505) {
+            this.x = -200;
+        }
     }
 
     // Draw the enemy on the screen, required method for game
@@ -59,8 +62,8 @@ class Player {
 let allEnemies = [];
 // Create the enemies and add them to allEnemies array
 let enemiesPositionY = [62, 62, 145, 145, 228, 228, 228];
-enemiesPositionY.forEach (enemyPositionY => {
-    let enemy = new Enemy(-50, enemyPositionY);
+enemiesPositionY.forEach(enemyPositionY => {
+    let enemy = new Enemy(-200, enemyPositionY);
     allEnemies.push(enemy);
 });
 
