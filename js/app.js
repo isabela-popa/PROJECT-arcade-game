@@ -57,18 +57,34 @@ class Player {
         if (keyPress === 'up' && this.y > 0) {
             this.y -= 83;
         }
+
         // If user presses the "Down arrow" key and the player's position is less than it's initial position, the player moves down one block
         if (keyPress === 'down' && this.y < 406) {
             this.y += 83;
         }
+
         // When user presses the "Left arrow" key and the player's position is inside the screen, the player moves left one block
         if (keyPress === 'left' && this.x > 0) {
             this.x -= 101;
         }
+
         // When user presses the "Right arrow" key and it's position is greater than one step needed to move, the player moves right one block
         if (keyPress === 'right' && this.x < 404) {
             this.x += 101;
         }
+
+        // when the player reaches the other side of the road, reset the game by moving the player back to the initial location
+        if (this.y <= 0) {
+            this.reset();
+        }
+    }
+
+    // Move the player back to the initial location
+    reset() {
+        setTimeout(() => {
+            this.x = 202;
+            this.y = 406;
+        }, 500);
     }
 }
 
