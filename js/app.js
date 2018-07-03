@@ -5,7 +5,7 @@ class Enemy {
         // we've provided one for you to get started
         this.x = x;
         this.y = y;
-        this.speed = Math.floor((Math.random() * 230) + 50);
+        this.speed = Math.floor((Math.random() * 220) + 50);
         // The image/sprite for our enemies, this uses
         // a helper we've provided to easily load images
         this.sprite = 'images/blue-f1-car.png';
@@ -21,6 +21,17 @@ class Enemy {
         if (this.x > 505) {
             this.x = -200;
         }
+
+        // Check for enemy collision with the player
+        if (player.x < this.x + 80 &&
+            player.x + 80 > this.x &&
+            player.y < this.y + 36 &&
+            62 + player.y > this.y) {
+            // Move player to initial position
+            player.x = 202;
+            player.y = 406;
+        }
+
     }
 
     // Draw the enemy on the screen, required method for game
