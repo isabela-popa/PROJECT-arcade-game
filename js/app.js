@@ -53,23 +53,21 @@ class Player {
 
     // handleInput() method
     handleInput(keyPress) {
-        switch (keyPress) {
-            // When user presses the "Up arrow" key, the player moves up one block
-            case 'up':
-                this.y -= 83;
-                break;
-            // When user presses the "Down arrow" key, the player moves down one block
-            case 'down':
-                this.y += 83;
-                break;
-            // When user presses the "Left arrow" key, the player moves left one block
-            case 'left':
-                this.x -= 101;
-                break;
-            // When user presses the "Right arrow" key, the player moves right one block
-            case 'right':
-                this.x += 101;
-                break;
+        // If user presses the "Up arrow" key and the player's position is inside the screen, the player moves up one block
+        if (keyPress === 'up' && this.y > 0) {
+            this.y -= 83;
+        }
+        // If user presses the "Down arrow" key and the player's position is less than it's initial position, the player moves down one block
+        if (keyPress === 'down' && this.y < 406) {
+            this.y += 83;
+        }
+        // When user presses the "Left arrow" key and the player's position is inside the screen, the player moves left one block
+        if (keyPress === 'left' && this.x > 0) {
+            this.x -= 101;
+        }
+        // When user presses the "Right arrow" key and it's position is greater than one step needed to move, the player moves right one block
+        if (keyPress === 'right' && this.x < 404) {
+            this.x += 101;
         }
     }
 }
