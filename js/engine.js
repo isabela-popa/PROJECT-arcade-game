@@ -13,7 +13,7 @@
  * writing app.js a little simpler to work with.
  */
 
-var Engine = (function(global) {
+var Engine = (function (global) {
     /* Predefine the variables we'll be using within this scope,
      * create the canvas element, grab the 2D context for that canvas
      * set the canvas elements height/width and add it to the DOM.
@@ -90,7 +90,7 @@ var Engine = (function(global) {
      * render methods.
      */
     function updateEntities(dt) {
-        allEnemies.forEach(function(enemy) {
+        allEnemies.forEach(function (enemy) {
             enemy.update(dt);
         });
         player.update();
@@ -107,19 +107,19 @@ var Engine = (function(global) {
          * for that particular row of the game level.
          */
         var rowImages = [
-                'images/grass-block.png',   // Top row is water
-                'images/plain-block.png',   // Row 1 of 3 of stone
-                'images/plain-block.png',   // Row 2 of 3 of stone
-                'images/plain-block.png',   // Row 3 of 3 of stone
-                'images/grass-block.png',   // Row 1 of 2 of grass
-                'images/grass-block.png'    // Row 2 of 2 of grass
-            ],
+            'images/grass-block.png',   // Top row is water
+            'images/plain-block.png',   // Row 1 of 3 of stone
+            'images/plain-block.png',   // Row 2 of 3 of stone
+            'images/plain-block.png',   // Row 3 of 3 of stone
+            'images/grass-block.png',   // Row 1 of 2 of grass
+            'images/grass-block.png'    // Row 2 of 2 of grass
+        ],
             numRows = 6,
             numCols = 5,
             row, col;
-        
+
         // Before drawing, clear existing canvas
-        ctx.clearRect(0,0,canvas.width,canvas.height)
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
 
         /* Loop through the number of rows and columns we've defined above
          * and, using the rowImages array, draw the correct image for that
@@ -134,6 +134,7 @@ var Engine = (function(global) {
                  * so that we get the benefits of caching these images, since
                  * we're using them over and over.
                  */
+                // @ts-ignore
                 ctx.drawImage(Resources.get(rowImages[row]), col * 101, row * 83);
             }
         }
@@ -149,7 +150,10 @@ var Engine = (function(global) {
         /* Loop through all of the objects within the allEnemies array and call
          * the render function you have defined.
          */
-        allEnemies.forEach(function(enemy) {
+
+        carrot.render();
+
+        allEnemies.forEach(function (enemy) {
             enemy.render();
         });
 
@@ -168,6 +172,7 @@ var Engine = (function(global) {
      * draw our game level. Then set init as the callback method, so that when
      * all of these images are properly loaded our game will start.
      */
+    // @ts-ignore
     Resources.load([
         'images/plain-block.png',
         'images/brown-block.png',
@@ -183,8 +188,19 @@ var Engine = (function(global) {
         'images/c10.png',
         'images/c11.png',
         'images/green-f1-car.png',
-        'images/blue-f1-car.png'
+        'images/blue-f1-car.png',
+        'images/ct1.png',
+        'images/ct2.png',
+        'images/ct3.png',
+        'images/ct4.png',
+        'images/ct5.png',
+        'images/ct6.png',
+        'images/ct7.png',
+        'images/ct8.png',
+        'images/ct9.png',
+        'images/ct5r.png'
     ]);
+    // @ts-ignore
     Resources.onReady(init);
 
     /* Assign the canvas' context object to the global variable (the window

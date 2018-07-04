@@ -5,7 +5,7 @@ class Enemy {
         // we've provided one for you to get started
         this.x = x;
         this.y = y;
-        this.speed = Math.floor((Math.random() * 220) + 50);
+        this.speed = Math.floor((Math.random() * 150) + 50);
         // The image/sprite for our enemies, this uses
         // a helper we've provided to easily load images
         this.sprite = 'images/blue-f1-car.png';
@@ -36,6 +36,7 @@ class Enemy {
 
     // Draw the enemy on the screen, required method for game
     render() {
+        // @ts-ignore
         ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     }
 }
@@ -53,12 +54,14 @@ class Player {
     }
 
     // Update the player's position
+    // @ts-ignore
     update(dt) {
 
     }
 
     // Draw the player on the screen
     render() {
+        // @ts-ignore
         ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     }
 
@@ -98,6 +101,26 @@ class Player {
         }, 500);
     }
 }
+
+class Collectible {
+    constructor() {
+        // Variables applied to each of our instances
+        this.x = 203;
+        this.y = 216;
+        // The image/sprite for our collectible
+        this.sprite = 'images/ct5r.png';
+    }
+
+    // Draw the collectible on the screen
+    render() {
+        // @ts-ignore
+        ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    }
+}
+
+let allCarrots = [];
+let carrot = new Collectible();
+allCarrots.push(carrot);
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
