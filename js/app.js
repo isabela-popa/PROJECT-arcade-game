@@ -63,6 +63,16 @@ class Player {
     render() {
         // @ts-ignore
         ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+        // when the player reaches the other side of the road, reset the game by moving the player back to the initial location
+        if (this.y <= 0) {
+            this.reset();
+            // Print a win message on the screen
+            ctx.fillStyle = "rgba(0,0,0,0.7)";
+            ctx.fillRect(101, 134, 303, 333);
+            ctx.font = "30px Arial";
+            ctx.fillStyle = "white";
+            ctx.fillText("You won!", 190, 200);
+        }
     }
 
     // handleInput() method
@@ -85,11 +95,6 @@ class Player {
         // When user presses the "Right arrow" key and it's position is greater than one step needed to move, the player moves right one block
         if (keyPress === 'right' && this.x < 404) {
             this.x += 101;
-        }
-
-        // when the player reaches the other side of the road, reset the game by moving the player back to the initial location
-        if (this.y <= 0) {
-            this.reset();
         }
     }
 
@@ -122,24 +127,24 @@ class Collectible {
 // Place all 15 carrots, one for each plain block that make up the road, in an array
 let allCarrots = [];
 // Set the y positions of the carrots
-let carrotsPositionY= [133, 216, 299];
+let carrotsPositionY = [133, 216, 299];
 // Set all the x positions for the carrots
-let carrotsPositionX = [1, 102, 203, 304, 405];
+let carrotsPositionX = [0, 101, 202, 303, 404];
 
 // Create all the carrots and set their x and y coordinates, then add them to allCarots array
 carrotsPositionY.forEach(carrotsPositionY => {
     carrotsPositionX.forEach(carrotsPositionX => {
-    let carrot = new Collectible(carrotsPositionX, carrotsPositionY);
-    allCarrots.push(carrot);
+        let carrot = new Collectible(carrotsPositionX, carrotsPositionY);
+        allCarrots.push(carrot);
     });
 });
 
 // PicK a random number of carrots between 1 and 5 to render on the screen
-let amountCarrots = Math.floor (Math.random () * 5) + 1;
+let amountCarrots = Math.floor(Math.random() * 5) + 1;
 // Create an array where to place all the random carrots
 let randomCarrots = [];
 // Assign a random position for each of the random number of carrots and add them to randomCarrots array
-for(let i = 0; i < amountCarrots; i++) {
+for (let i = 0; i < amountCarrots; i++) {
     let randomPosition = allCarrots[Math.floor(Math.random() * 14)];
     randomCarrots.push(randomPosition);
 }
