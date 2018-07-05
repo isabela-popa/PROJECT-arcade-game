@@ -19,10 +19,11 @@ class Enemy {
         // all computers.
         this.x += this.speed * dt;
         if (this.x > 505) {
-            this.x = -200;
+            this.x = -300;
         }
 
         // Check for enemy collision with the player
+        // coliision detection from https://developer.mozilla.org/en-US/docs/Games/Techniques/2D_collision_detection
         if (player.x < this.x + 80 &&
             player.x + 80 > this.x &&
             player.y < this.y + 36 &&
@@ -127,10 +128,10 @@ class Collectible {
     update(dt) {
         // Check for carrot collision with the player
         for (let i = 0; i < randomCarrots.length; i++) {
-            if (player.x < randomCarrots[i].x + 80 &&
-                player.x + 80 > randomCarrots[i].x &&
-                player.y < randomCarrots[i].y + 40 &&
-                60 + player.y > randomCarrots[i].y) {
+            if (player.x < randomCarrots[i].x + 40 &&
+                player.x + 40 > randomCarrots[i].x &&
+                player.y < randomCarrots[i].y + 3 &&
+                3 + player.y > randomCarrots[i].y) {
                 // Remove carrot from the randomCarrots array
                 randomCarrots.splice(i, 1);
             }
@@ -153,14 +154,34 @@ carrotsPositionY.forEach(carrotsPositionY => {
     });
 });
 
-// PicK a random number of carrots between 1 and 5 to render on the screen
-let amountCarrots = Math.floor(Math.random() * 5) + 1;
 // Create an array where to place all the random carrots
 let randomCarrots = [];
-// Assign a random position for each of the random number of carrots and add them to randomCarrots array
-for (let i = 0; i < amountCarrots; i++) {
-    let randomPosition = allCarrots[Math.floor(Math.random() * 14)];
-    randomCarrots.push(randomPosition);
+// The setInterval will start after the first round of carrots are collected
+let firstRender = true;
+// Create carrots for the first time
+if (firstRender) {
+    // Create new carrots
+    createNewCarrots();
+    firstRender = false;
+}
+
+// After all the first carrots are collected, wait 3 seconds and then create new ones
+let newCarrot = setInterval(() => {
+    if (randomCarrots.length === 0) {
+        // Create new carrots
+        createNewCarrots();
+    }
+}, 3000);
+
+// Create new carrots
+function createNewCarrots() {
+    // PicK a random number of carrots between 1 and 5 to render on the screen
+    let amountCarrots = Math.floor(Math.random() * 5) + 1;
+    // Assign a random position for each of the random number of carrots and add them to randomCarrots array
+    for (let i = 0; i < amountCarrots; i++) {
+        let randomPosition = allCarrots[Math.floor(Math.random() * 14)];
+        randomCarrots.push(randomPosition);
+    }
 }
 
 // Now instantiate your objects.
