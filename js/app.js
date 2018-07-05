@@ -103,10 +103,11 @@ class Player {
 }
 
 class Collectible {
-    constructor() {
+    constructor(x, y) {
         // Variables applied to each of our instances
-        this.x = 203;
-        this.y = 216;
+        // The position x and y of each collectible
+        this.x = x;
+        this.y = y;
         // The image/sprite for our collectible
         this.sprite = 'images/ct5r.png';
     }
@@ -118,9 +119,30 @@ class Collectible {
     }
 }
 
+// Place all 15 carrots, one for each plain block that make up the road, in an array
 let allCarrots = [];
-let carrot = new Collectible();
-allCarrots.push(carrot);
+// Set the y positions of the carrots
+let carrotsPositionY= [133, 216, 299];
+// Set all the x positions for the carrots
+let carrotsPositionX = [1, 102, 203, 304, 405];
+
+// Create all the carrots and set their x and y coordinates, then add them to allCarots array
+carrotsPositionY.forEach(carrotsPositionY => {
+    carrotsPositionX.forEach(carrotsPositionX => {
+    let carrot = new Collectible(carrotsPositionX, carrotsPositionY);
+    allCarrots.push(carrot);
+    });
+});
+
+// PicK a random number of carrots between 1 and 5 to render on the screen
+let amountCarrots = Math.floor (Math.random () * 5) + 1;
+// Create an array where to place all the random carrots
+let randomCarrots = [];
+// Assign a random position for each of the random number of carrots and add them to randomCarrots array
+for(let i = 0; i < amountCarrots; i++) {
+    let randomPosition = allCarrots[Math.floor(Math.random() * 14)];
+    randomCarrots.push(randomPosition);
+}
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
