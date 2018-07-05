@@ -51,6 +51,7 @@ class Player {
         this.y = 406;
         // The image/sprite for our player
         this.sprite = 'images/white-rabbit.png';
+        this.carrots = 0;
     }
 
     // Update the player's position
@@ -69,7 +70,7 @@ class Player {
             // Print a win message on the screen
             ctx.fillStyle = "rgba(0,0,0,0.7)";
             ctx.fillRect(101, 134, 303, 333);
-            ctx.font = "30px Arial";
+            ctx.font = "30px Tahoma";
             ctx.fillStyle = "white";
             ctx.fillText("You won!", 190, 200);
         }
@@ -122,12 +123,25 @@ class Collectible {
         // @ts-ignore
         ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     }
+
+    update(dt) {
+        // Check for carrot collision with the player
+        for (let i = 0; i < randomCarrots.length; i++) {
+            if (player.x < randomCarrots[i].x + 80 &&
+                player.x + 80 > randomCarrots[i].x &&
+                player.y < randomCarrots[i].y + 40 &&
+                60 + player.y > randomCarrots[i].y) {
+                // Remove carrot from the randomCarrots array
+                randomCarrots.splice(i, 1);
+            }
+        }
+    }
 }
 
 // Place all 15 carrots, one for each plain block that make up the road, in an array
 let allCarrots = [];
 // Set the y positions of the carrots
-let carrotsPositionY = [133, 216, 299];
+let carrotsPositionY = [72, 155, 238];
 // Set all the x positions for the carrots
 let carrotsPositionX = [0, 101, 202, 303, 404];
 

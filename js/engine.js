@@ -90,6 +90,9 @@ var Engine = (function (global) {
      * render methods.
      */
     function updateEntities(dt) {
+        randomCarrots.forEach(function (randomPosition) {
+            randomPosition.update(dt);
+        });
         allEnemies.forEach(function (enemy) {
             enemy.update(dt);
         });
