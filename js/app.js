@@ -31,6 +31,8 @@ class Enemy {
             // Move player to initial position
             player.x = 202;
             player.y = 406;
+            // Decrease the number of player's lives by 1
+            player.lives -= 1;
         }
 
     }
@@ -54,9 +56,11 @@ class Player {
         this.sprite = 'images/white-rabbit.png';
         this.points = 0;
         this.carrots = 0;
+        this.lives = 3;
     }
 
     // Update the player's position
+    // @ts-ignore
     // @ts-ignore
     update(dt) {
 
@@ -66,19 +70,33 @@ class Player {
     render() {
         // @ts-ignore
         ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-        // Add a score board on top of the screen, which keeps the number of carrots collected, points gathered
+        // Add a score board on top of the screen, which keeps the number of carrots collected, points gathered and lives of the player
+        // @ts-ignore
         ctx.font = "20px Verdana";
+        // @ts-ignore
+        ctx.fillText(`Lives: ${this.lives}`, 10, 37);
+        // @ts-ignore
         ctx.fillText(`Carrots: ${this.carrots}`, 327, 17);
+        // @ts-ignore
         ctx.fillText(`Points: ${this.points}`, 340, 37);
-        // when the player reaches the other side of the road, reset the game by moving the player back to the initial location
+        // when the player reaches the other side of the road, reset the game by moving the player back to the initial location and increase the lives by 1
         if (this.y <= 0) {
             this.reset();
-            // Print a win message on the screen
+            this.lives += 1;
+        }
+
+        if (this.lives === 0) {
+            // Print a game over message on the screen
+            // @ts-ignore
             ctx.fillStyle = "rgba(0,0,0,0.7)";
+            // @ts-ignore
             ctx.fillRect(101, 134, 303, 333);
+            // @ts-ignore
             ctx.font = "32px Tahoma";
+            // @ts-ignore
             ctx.fillStyle = "white";
-            ctx.fillText("You won!", 190, 200);
+            // @ts-ignore
+            ctx.fillText("Game over!", 190, 200);
         }
     }
 
@@ -107,10 +125,8 @@ class Player {
 
     // Move the player back to the initial location
     reset() {
-        setTimeout(() => {
-            this.x = 202;
-            this.y = 406;
-        }, 500);
+        this.x = 202;
+        this.y = 406;
     }
 }
 
@@ -130,6 +146,7 @@ class Collectible {
         ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     }
 
+    // @ts-ignore
     update(dt) {
         // Check for carrot collision with the player
         for (let i = 0; i < randomCarrots.length; i++) {
