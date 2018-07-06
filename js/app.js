@@ -52,6 +52,7 @@ class Player {
         this.y = 406;
         // The image/sprite for our player
         this.sprite = 'images/white-rabbit.png';
+        this.points = 0;
         this.carrots = 0;
     }
 
@@ -65,13 +66,17 @@ class Player {
     render() {
         // @ts-ignore
         ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+        // Add a score board on top of the screen, which keeps the number of carrots collected, points gathered
+        ctx.font = "20px Verdana";
+        ctx.fillText(`Carrots: ${this.carrots}`, 327, 17);
+        ctx.fillText(`Points: ${this.points}`, 340, 37);
         // when the player reaches the other side of the road, reset the game by moving the player back to the initial location
         if (this.y <= 0) {
             this.reset();
             // Print a win message on the screen
             ctx.fillStyle = "rgba(0,0,0,0.7)";
             ctx.fillRect(101, 134, 303, 333);
-            ctx.font = "30px Tahoma";
+            ctx.font = "32px Tahoma";
             ctx.fillStyle = "white";
             ctx.fillText("You won!", 190, 200);
         }
@@ -132,8 +137,11 @@ class Collectible {
                 player.x + 40 > randomCarrots[i].x &&
                 player.y < randomCarrots[i].y + 3 &&
                 3 + player.y > randomCarrots[i].y) {
-                // Remove carrot from the randomCarrots array
+                // Remove carrot from the randomCarrots array and therefore from the screen
                 randomCarrots.splice(i, 1);
+                // For every carrot collected, increase the score of carrots by 1 and the score of points by 50
+                player.carrots += 1;
+                player.points += 50;
             }
         }
     }
