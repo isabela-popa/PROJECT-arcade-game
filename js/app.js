@@ -2,19 +2,19 @@
 class Enemy {
     constructor(x, y) {
         // Variables applied to each of our instances go here,
-        // we've provided one for you to get started
+        // provided this.sprite for us to get started
         this.x = x;
         this.y = y;
         this.speed = Math.floor((Math.random() * 150) + 50);
         // The image/sprite for our enemies, this uses
-        // a helper we've provided to easily load images
+        // a helper provided to easily load images
         this.sprite = 'images/blue-f1-car.png';
     }
 
     // Update the enemy's position, required method for game
     // Parameter: dt, a time delta between ticks
     update(dt) {
-        // You should multiply any movement by the dt parameter
+        // We should multiply any movement by the dt parameter
         // which will ensure the game runs at the same speed for
         // all computers.
         this.x += this.speed * dt;
@@ -23,7 +23,7 @@ class Enemy {
         }
 
         // Check for enemy collision with the player
-        // coliision detection from https://developer.mozilla.org/en-US/docs/Games/Techniques/2D_collision_detection
+        // Collision detection from https://developer.mozilla.org/en-US/docs/Games/Techniques/2D_collision_detection
         if (player.x < this.x + 80 &&
             player.x + 80 > this.x &&
             player.y < this.y + 36 &&
@@ -34,7 +34,6 @@ class Enemy {
             // Decrease the number of player's lives by 1
             player.lives -= 1;
         }
-
     }
 
     // Draw the enemy on the screen, required method for game
@@ -44,7 +43,7 @@ class Enemy {
     }
 }
 
-// Now write your own player class
+// Write our own player class
 // This class requires an update(), render() and
 // a handleInput() method.
 class Player {
@@ -61,7 +60,6 @@ class Player {
 
     // Update the player's position
     // @ts-ignore
-    // @ts-ignore
     update(dt) {
 
     }
@@ -70,6 +68,7 @@ class Player {
     render() {
         // @ts-ignore
         ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+
         // Add a score board on top of the screen, which keeps the number of carrots collected, points gathered and lives of the player
         // @ts-ignore
         ctx.font = "20px Verdana";
@@ -79,24 +78,31 @@ class Player {
         ctx.fillText(`Carrots: ${this.carrots}`, 327, 17);
         // @ts-ignore
         ctx.fillText(`Points: ${this.points}`, 340, 37);
-        // when the player reaches the other side of the road, reset the game by moving the player back to the initial location and increase the lives by 1
-        if (this.y <= 0) {
-            this.reset();
-            this.lives += 1;
-        }
 
+        // Print a game over message on the screen
         if (this.lives === 0) {
-            // Print a game over message on the screen
             // @ts-ignore
-            ctx.fillStyle = "rgba(0,0,0,0.7)";
+            ctx.fillStyle = 'rgba(0,0,0,0.7)';
             // @ts-ignore
-            ctx.fillRect(101, 134, 303, 333);
+            ctx.fillRect(50, 92, 404, 415);
             // @ts-ignore
-            ctx.font = "32px Tahoma";
+            ctx.font = '32px Tahoma';
             // @ts-ignore
-            ctx.fillStyle = "white";
+            ctx.fillStyle = '#fff';
             // @ts-ignore
-            ctx.fillText("Game over!", 190, 200);
+            ctx.fillText('Game over!', 170, 200);
+            // @ts-ignore
+            ctx.font = '24px Tahoma';
+            // @ts-ignore
+            ctx.fillText(`You scored ${this.points} points!`, 140, 270);
+            // @ts-ignore
+            ctx.fillText(`Press Enter to start a new game.`, 80, 320);
+
+            // Prevent the player to be moved after the game over message appeares
+            document.removeEventListener('keyup', handleMoveKeys);
+
+            // Listen for key presses related to popup and sends the key to Player.handleInput() method
+            document.addEventListener('keyup', handlePopupKeys);
         }
     }
 
@@ -121,10 +127,21 @@ class Player {
         if (keyPress === 'right' && this.x < 404) {
             this.x += 101;
         }
+
+        // when the player reaches the other side of the road, reset the game by moving the player back to the initial location and increase the lives by 1
+        if (this.y <= 0) {
+            this.resetPlayer();
+            this.lives += 1;
+        }
+
+        // When the game over popup is opened and the user presses the Enter key, start a new game
+        if (keyPress === 'enter') {
+            startGame();
+        }
     }
 
     // Move the player back to the initial location
-    reset() {
+    resetPlayer() {
         this.x = 202;
         this.y = 406;
     }
@@ -150,15 +167,18 @@ class Collectible {
     update(dt) {
         // Check for carrot collision with the player
         for (let i = 0; i < randomCarrots.length; i++) {
+            // The numbers in the condition below represent the width and height of the collision area of the two characters
             if (player.x < randomCarrots[i].x + 40 &&
                 player.x + 40 > randomCarrots[i].x &&
                 player.y < randomCarrots[i].y + 3 &&
                 3 + player.y > randomCarrots[i].y) {
-                // Remove carrot from the randomCarrots array and therefore from the screen
+                // Collect carrot by removing it from the randomCarrots array and therefore from the screen
                 randomCarrots.splice(i, 1);
                 // For every carrot collected, increase the score of carrots by 1 and the score of points by 50
                 player.carrots += 1;
                 player.points += 50;
+
+                // updatescore
             }
         }
     }
@@ -181,14 +201,6 @@ carrotsPositionY.forEach(carrotsPositionY => {
 
 // Create an array where to place all the random carrots
 let randomCarrots = [];
-// The setInterval will start after the first round of carrots are collected
-let firstRender = true;
-// Create carrots for the first time
-if (firstRender) {
-    // Create new carrots
-    createNewCarrots();
-    firstRender = false;
-}
 
 // After all the first carrots are collected, wait 3 seconds and then create new ones
 let newCarrot = setInterval(() => {
@@ -209,22 +221,49 @@ function createNewCarrots() {
     }
 }
 
-// Now instantiate your objects.
+// Instantiate our objects
 // Place all enemy objects in an array called allEnemies
 let allEnemies = [];
 // Create the enemies and add them to allEnemies array
 let enemiesPositionY = [62, 62, 145, 145, 228, 228, 228];
-enemiesPositionY.forEach(enemyPositionY => {
-    let enemy = new Enemy(-200, enemyPositionY);
-    allEnemies.push(enemy);
-});
 
 // Place the player object in a variable called player
-let player = new Player();
+let player;
 
-// This listens for key presses and sends the keys to your
-// Player.handleInput() method. You don't need to modify this.
-document.addEventListener('keyup', function (e) {
+function startGame() {
+    // Reset the randomCarrots array;
+    randomCarrots = [];
+    // The setInterval will start after the first round of carrots are collected
+    let firstRender = true;
+    // Create carrots for the first time
+    if (firstRender) {
+        // Create new carrots
+        createNewCarrots();
+        firstRender = false;
+    }
+
+    // Reset the allEnemies array
+    allEnemies = [];
+    // Create the enemies and add them to allEnemies array
+    enemiesPositionY.forEach(enemyPositionY => {
+        let enemy = new Enemy(-200, enemyPositionY);
+        allEnemies.push(enemy);
+    });
+
+    // Place the player object in a variable called player
+    player = new Player();
+
+    // Remove event listener for key presses related to popup
+    document.removeEventListener('keyup', handlePopupKeys);
+
+    // This listens for key presses and sends the keys to
+    // Player.handleInput() method.
+    document.addEventListener('keyup', handleMoveKeys);
+};
+
+// This listens for key presses and sends the keys to
+// Player.handleInput() method.
+function handleMoveKeys(e) {
     var allowedKeys = {
         37: 'left',
         38: 'up',
@@ -233,4 +272,16 @@ document.addEventListener('keyup', function (e) {
     };
 
     player.handleInput(allowedKeys[e.keyCode]);
-});
+}
+
+// Add the keys allowed to press by the user when the game over popup is opened
+function handlePopupKeys(e) {
+    var allowedKeys = {
+        13: 'enter'
+    };
+
+    player.handleInput(allowedKeys[e.keyCode]);
+}
+
+// Start game for the first time
+startGame();
