@@ -21,18 +21,22 @@ class Enemy {
         if (this.x > 505) {
             this.x = -300;
         }
+    }
 
-        // Check for enemy collision with the player
+    // Check for enemy collision with the player
+    enemyCollision() {
         // Collision detection from https://developer.mozilla.org/en-US/docs/Games/Techniques/2D_collision_detection
-        if (player.x < this.x + 80 &&
-            player.x + 80 > this.x &&
-            player.y < this.y + 36 &&
-            62 + player.y > this.y) {
-            // Move player to initial position
-            player.x = 202;
-            player.y = 406;
-            // Decrease the number of player's lives by 1
-            player.lives -= 1;
+        for (let i = 0; i < allEnemies.length; i++) {
+            if (player.x < allEnemies[i].x + 80 &&
+                player.x + 80 > allEnemies[i].x &&
+                player.y < allEnemies[i].y + 36 &&
+                62 + player.y > allEnemies[i].y) {
+                // Move player to initial position
+                player.x = 202;
+                player.y = 406;
+                // Decrease the number of player's lives by 1
+                player.lives -= 1;
+            }
         }
     }
 
@@ -59,9 +63,14 @@ class Player {
     }
 
     // Update the player's position
+    // Initially, the collision check for enemy and for carrot was in the update method of each entity
+    // But, to prevent the player to collect the carrot when collides with an enemy in the same block
+    // The collision detection methods are called in the player's update method
+    // First is checked the collision with the enemy and after that with the carrot
     // @ts-ignore
     update(dt) {
-
+        enemy.enemyCollision();
+        randomCarrot.collectibleCollision();
     }
 
     // Draw the player on the screen
@@ -142,8 +151,10 @@ class Player {
 
     // Move the player back to the initial location
     resetPlayer() {
-        this.x = 202;
-        this.y = 406;
+        setTimeout(() => {
+            this.x = 202;
+            this.y = 406;
+        }, 500);
     }
 }
 
@@ -165,7 +176,11 @@ class Collectible {
 
     // @ts-ignore
     update(dt) {
-        // Check for carrot collision with the player
+
+    }
+
+    // Check for carrot collision with the player
+    collectibleCollision() {
         for (let i = 0; i < randomCarrots.length; i++) {
             // The numbers in the condition below represent the width and height of the collision area of the two characters
             if (player.x < randomCarrots[i].x + 40 &&
@@ -211,13 +226,14 @@ let newCarrot = setInterval(() => {
 }, 3000);
 
 // Create new carrots
+let randomCarrot;
 function createNewCarrots() {
     // PicK a random number of carrots between 1 and 5 to render on the screen
     let amountCarrots = Math.floor(Math.random() * 5) + 1;
     // Assign a random position for each of the random number of carrots and add them to randomCarrots array
     for (let i = 0; i < amountCarrots; i++) {
-        let randomPosition = allCarrots[Math.floor(Math.random() * 14)];
-        randomCarrots.push(randomPosition);
+        randomCarrot = allCarrots[Math.floor(Math.random() * 14)];
+        randomCarrots.push(randomCarrot);
     }
 }
 
@@ -226,6 +242,7 @@ function createNewCarrots() {
 let allEnemies = [];
 // Create the enemies and add them to allEnemies array
 let enemiesPositionY = [62, 62, 145, 145, 228, 228, 228];
+let enemy;
 
 // Place the player object in a variable called player
 let player;
@@ -246,7 +263,7 @@ function startGame() {
     allEnemies = [];
     // Create the enemies and add them to allEnemies array
     enemiesPositionY.forEach(enemyPositionY => {
-        let enemy = new Enemy(-200, enemyPositionY);
+        enemy = new Enemy(-200, enemyPositionY);
         allEnemies.push(enemy);
     });
 
