@@ -164,7 +164,7 @@ class Collectible {
         this.x = x;
         this.y = y;
         // The image/sprite for our collectible
-        this.sprite = 'images/ct5r.png';
+        this.sprite = 'images/carrot.png';
         // Width and height for collision check
         this.width =  60;
         this.height = 40;

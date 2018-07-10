@@ -110,10 +110,10 @@ var Engine = (function (global) {
          * for that particular row of the game level.
          */
         var rowImages = [
-            'images/grass-block.png',   // Top row is water
-            'images/plain-block.png',   // Row 1 of 3 of stone
-            'images/plain-block.png',   // Row 2 of 3 of stone
-            'images/plain-block.png',   // Row 3 of 3 of stone
+            'images/grass-block.png',   // Top row is grass
+            'images/plain-block.png',   // Row 1 of 3 of plain
+            'images/plain-block.png',   // Row 2 of 3 of plain
+            'images/plain-block.png',   // Row 3 of 3 of plain
             'images/grass-block.png',   // Row 1 of 2 of grass
             'images/grass-block.png'    // Row 2 of 2 of grass
         ],
@@ -180,30 +180,10 @@ var Engine = (function (global) {
     // @ts-ignore
     Resources.load([
         'images/plain-block.png',
-        'images/brown-block.png',
         'images/grass-block.png',
-        'images/enemy-bug.png',
-        'images/char-cat-girl.png',
-        'images/r1.png',
-        'images/r2.png',
-        'images/r6s.png',
         'images/white-rabbit.png',
-        'images/c2.png',
-        'images/c8.png',
-        'images/c10.png',
-        'images/c11.png',
-        'images/green-f1-car.png',
         'images/blue-f1-car.png',
-        'images/ct1.png',
-        'images/ct2.png',
-        'images/ct3.png',
-        'images/ct4.png',
-        'images/ct5.png',
-        'images/ct6.png',
-        'images/ct7.png',
-        'images/ct8.png',
-        'images/ct9.png',
-        'images/ct5r.png'
+        'images/carrot.png'
     ]);
     // @ts-ignore
     Resources.onReady(init);
