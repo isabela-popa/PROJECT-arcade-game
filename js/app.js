@@ -9,6 +9,9 @@ class Enemy {
         // The image/sprite for our enemies, this uses
         // a helper provided to easily load images
         this.sprite = 'images/blue-f1-car.png';
+        // Width and height for collision check
+        this.width = 70;
+        this.height = 35;
     }
 
     // Update the enemy's position, required method for game
@@ -27,10 +30,10 @@ class Enemy {
     enemyCollision() {
         // Collision detection from https://developer.mozilla.org/en-US/docs/Games/Techniques/2D_collision_detection
         for (let i = 0; i < allEnemies.length; i++) {
-            if (player.x < allEnemies[i].x + 80 &&
-                player.x + 80 > allEnemies[i].x &&
-                player.y < allEnemies[i].y + 36 &&
-                62 + player.y > allEnemies[i].y) {
+            if (player.x < allEnemies[i].x + allEnemies[i].width &&
+                player.x + player.width > allEnemies[i].x &&
+                player.y < allEnemies[i].y + allEnemies[i].height &&
+                player.height + player.y > allEnemies[i].y) {
                 // Move player to initial position
                 player.x = 202;
                 player.y = 406;
@@ -60,33 +63,31 @@ class Player {
         this.points = 0;
         this.carrots = 0;
         this.lives = 3;
+        // Width and height for collision check
+        this.width =  70;
+        this.height = 60;
     }
 
     // Update the player's position
-    // Initially, the collision check for enemy and for carrot was in the update method of each entity
-    // But, to prevent the player to collect the carrot when collides with an enemy in the same block
-    // The collision detection methods are called in the player's update method
-    // First is checked the collision with the enemy and after that with the carrot
-    // @ts-ignore
+
+    // Initially, the collision check for enemy and for carrot was in the update method of each entity.
+    // But, to prevent the player to collect the carrot when collides with an enemy in the same block,
+    // The collision detection methods are called in the player's update method.
+    // First is checked the collision with the enemy and after that with the carrot.
+
     update(dt) {
+        // Check collision with enemy
         enemy.enemyCollision();
+        // Check collision with collectible
         randomCarrot.collectibleCollision();
+        // Update score on the screen
+        updateScore();
     }
 
-    // Draw the player on the screen
     render() {
+        // Draw the player on the screen
         // @ts-ignore
         ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-
-        // Add a score board on top of the screen, which keeps the number of carrots collected, points gathered and lives of the player
-        // @ts-ignore
-        ctx.font = "20px Verdana";
-        // @ts-ignore
-        ctx.fillText(`Lives: ${this.lives}`, 10, 37);
-        // @ts-ignore
-        ctx.fillText(`Carrots: ${this.carrots}`, 327, 17);
-        // @ts-ignore
-        ctx.fillText(`Points: ${this.points}`, 340, 37);
 
         // Print a game over message on the screen
         if (this.lives === 0) {
@@ -151,10 +152,8 @@ class Player {
 
     // Move the player back to the initial location
     resetPlayer() {
-        setTimeout(() => {
-            this.x = 202;
-            this.y = 406;
-        }, 500);
+        this.x = 202;
+        this.y = 406;
     }
 }
 
@@ -166,6 +165,9 @@ class Collectible {
         this.y = y;
         // The image/sprite for our collectible
         this.sprite = 'images/ct5r.png';
+        // Width and height for collision check
+        this.width =  60;
+        this.height = 40;
     }
 
     // Draw the collectible on the screen
@@ -183,10 +185,10 @@ class Collectible {
     collectibleCollision() {
         for (let i = 0; i < randomCarrots.length; i++) {
             // The numbers in the condition below represent the width and height of the collision area of the two characters
-            if (player.x < randomCarrots[i].x + 40 &&
-                player.x + 40 > randomCarrots[i].x &&
-                player.y < randomCarrots[i].y + 3 &&
-                3 + player.y > randomCarrots[i].y) {
+            if (player.x < randomCarrots[i].x + randomCarrots[i].width &&
+                player.x + player.width > randomCarrots[i].x &&
+                player.y < randomCarrots[i].y + randomCarrots[i].height &&
+                player.height + player.y > randomCarrots[i].y) {
                 // Collect carrot by removing it from the randomCarrots array and therefore from the screen
                 randomCarrots.splice(i, 1);
                 // For every carrot collected, increase the score of carrots by 1 and the score of points by 50
@@ -298,6 +300,31 @@ function handlePopupKeys(e) {
     };
 
     player.handleInput(allowedKeys[e.keyCode]);
+}
+
+// Add a score board on top of the screen, which keeps the number of carrots collected, points gathered and lives of the player.
+
+// Initially, the score board was drawn on the canvas using ctx.fillText, by the render method of the player.
+// But the score disappeared from the canvas at display of the game over popup on the screen.
+// Finally, the score will be displayed by creating HTML elements to hold the variables
+
+// Store the element which holds the points in a variable
+let pointsBoard = document.querySelector(".points");
+// Display de default points on the page
+pointsBoard.innerHTML = `0`;
+// Store the element which holds the carrots in a variable
+let carrotsBoard = document.querySelector(".collectibles");
+// Display de default carrots on the page
+carrotsBoard.innerHTML = `0`;
+// Store the element which holds the lives in a variable
+let livesBoard = document.querySelector(".lives");
+// Display de default lives on the page
+livesBoard.innerHTML = `3`;
+// Update the score on the screen
+function updateScore() {
+    pointsBoard.innerHTML = player.points;
+    carrotsBoard.innerHTML = player.carrots;
+    livesBoard.innerHTML = player.lives;
 }
 
 // Start game for the first time
