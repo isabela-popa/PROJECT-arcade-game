@@ -8,6 +8,7 @@ class Enemy {
         this.speed = Math.floor((Math.random() * 150) + 50);
         // The image/sprite for our enemies, this uses
         // a helper provided to easily load images
+        // F1 racing car image source: https://www.kisspng.com/png-auto-racing-cartoon-clip-art-formula-cliparts-110497/
         this.sprite = 'images/blue-f1-car.png';
         // Width and height for collision check
         this.width = 70;
@@ -59,6 +60,7 @@ class Player {
         this.x = 202;
         this.y = 406;
         // The image/sprite for our player
+        // Rabbit image source: http://weclipart.com/rabbit+png+clipart
         this.sprite = 'images/white-rabbit.png';
         this.points = 0;
         this.carrots = 0;
@@ -164,6 +166,7 @@ class Collectible {
         this.x = x;
         this.y = y;
         // The image/sprite for our collectible
+        // Carrot image source: http://pngimg.com/imgs/vegetables/carrot/
         this.sprite = 'images/carrot.png';
         // Width and height for collision check
         this.width =  60;
@@ -311,15 +314,15 @@ function handlePopupKeys(e) {
 // Store the element which holds the points in a variable
 let pointsBoard = document.querySelector(".points");
 // Display de default points on the page
-pointsBoard.innerHTML = `0`;
+pointsBoard.innerHTML = '0';
 // Store the element which holds the carrots in a variable
 let carrotsBoard = document.querySelector(".collectibles");
 // Display de default carrots on the page
-carrotsBoard.innerHTML = `0`;
+carrotsBoard.innerHTML = '0';
 // Store the element which holds the lives in a variable
 let livesBoard = document.querySelector(".lives");
 // Display de default lives on the page
-livesBoard.innerHTML = `3`;
+livesBoard.innerHTML = '3';
 // Update the score on the screen
 function updateScore() {
     pointsBoard.innerHTML = player.points;

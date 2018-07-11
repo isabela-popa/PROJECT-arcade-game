@@ -111,6 +111,7 @@ var Engine = (function (global) {
          */
         var rowImages = [
             'images/grass-block.png',   // Top row is grass
+            // Plain Block image source: https://mfgames.com/svn/Sprite3/branches/pre-configure/Assets/PlanetCute/
             'images/plain-block.png',   // Row 1 of 3 of plain
             'images/plain-block.png',   // Row 2 of 3 of plain
             'images/plain-block.png',   // Row 3 of 3 of plain
@@ -179,10 +180,14 @@ var Engine = (function (global) {
      */
     // @ts-ignore
     Resources.load([
+        // Plain Block image source: https://mfgames.com/svn/Sprite3/branches/pre-configure/Assets/PlanetCute/
         'images/plain-block.png',
         'images/grass-block.png',
+        // Rabbit image source: http://weclipart.com/rabbit+png+clipart
         'images/white-rabbit.png',
+        // F1 racing car image source: https://www.kisspng.com/png-auto-racing-cartoon-clip-art-formula-cliparts-110497/
         'images/blue-f1-car.png',
+        // Carrot image source: http://pngimg.com/imgs/vegetables/carrot/
         'images/carrot.png'
     ]);
     // @ts-ignore

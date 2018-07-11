@@ -12,9 +12,13 @@ body {
     padding-top: 10px;
 }
 
-.lives,
 .collectibles,
 .points {
-    width: 33.33%;
+    width: 20%;
+    display: flex;
+}
+
+.lives {
+    width: 60%;
     display: flex;
 }
